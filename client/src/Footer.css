@@ -1,0 +1,12 @@
+.footer {
+  text-align: center;
+  height: 10px;
+  top: 300px;
+  position: absolute;
+}
+
+.footer > code {
+  color: white;
+  font-size: 12px;
+  text-decoration: underline;
+}

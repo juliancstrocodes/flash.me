@@ -1,0 +1,17 @@
+{
+  "name": "flash.me",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "flashcards, in a flash",
+  "icons": {
+    "512": "logo512.png"
+  },
+  "permissions": ["activeTab", "storage"],
+  "browser_action": {
+    "default_icon": "logo512.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

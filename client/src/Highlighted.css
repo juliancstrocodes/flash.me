@@ -1,0 +1,13 @@
+.highlighted__button {
+  position: absolute;
+  display: flex;
+}
+
+.highlighted__button > button {
+  text-transform: inherit !important;
+  background-color: var(--blue);
+  color: white;
+  width: 130px;
+  height: 40px;
+  top: 150px;
+}
