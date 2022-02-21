@@ -1,12 +1,21 @@
 import React from "react";
 import "./Footer.css";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // TODO: make a link to see quizlet generation page
 function Footer() {
+  const location = useLocation();
+
   return (
     <div className="footer">
-      <code>
+      <code
+        onClick={() => {
+          if (location.pathname === "/keywords") {
+            alert("run scraper");
+          }
+        }}
+      >
         <Link
           to="/keywords"
           style={{
@@ -15,7 +24,9 @@ function Footer() {
             color: "white",
           }}
         >
-          edit or upload
+          {location.pathname === "/keywords"
+            ? "upload to quizlet"
+            : "edit or upload"}
         </Link>
       </code>
     </div>

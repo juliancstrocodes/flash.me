@@ -24,11 +24,9 @@ function App() {
           </code>
         </h1>
         <Switch>
-          {/** for default path */}
           <Route exact path="/" element={<Highlighted />}>
             <Highlighted />
           </Route>
-          {/** for search path */}
           <Route exact path="/keywords" element={<Keywords />}>
             <Keywords />
           </Route>

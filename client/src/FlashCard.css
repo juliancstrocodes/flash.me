@@ -1,0 +1,10 @@
+.cards__box {
+  display: "flex";
+  flex-wrap: "wrap";
+  /** for hover property: 100ms delay */
+  transition: transform 100ms ease-in;
+}
+
+.card__remove {
+  background-color: transparent;
+}

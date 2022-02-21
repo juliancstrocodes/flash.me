@@ -11,3 +11,16 @@
   height: 40px;
   top: 150px;
 }
+
+.highlighted_word {
+  position: absolute;
+  display: flex;
+  top: 200px;
+}
+
+.highlighted_word > code {
+  width: 260px;
+  height: 40px;
+  text-align: center;
+  color: white;
+}
