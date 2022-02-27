@@ -2,8 +2,8 @@
 // 2. if keyword is stored but no def, add to definition.
 // 3. when keyword/definition is stored, upload and delete.
 export const storeWord = (setIsKeyword, isKeyword, setKeyword) => {
-  const toQuizUrl =
-    "https://us-east1-flashme-27657.cloudfunctions.net/cards/toQuizlet";
+  const toDeckUrl =
+    "https://us-east1-flashme-27657.cloudfunctions.net/cards/toDeck";
 
   /* global chrome */
   window.chrome.tabs.executeScript(
@@ -20,11 +20,13 @@ export const storeWord = (setIsKeyword, isKeyword, setKeyword) => {
         } else {
           // upload to firebase
           try {
-            await fetch(toQuizUrl, {
+            await fetch(toDeckUrl, {
               method: "POST",
               body: JSON.stringify({
                 cardKey: `${results.keyword}`,
                 cardDef: `${selection}`,
+                deckName: "deckName",
+                email: "castrojv@bc.edu",
               }),
               headers: {
                 "Content-Type": "application/json",
@@ -32,8 +34,7 @@ export const storeWord = (setIsKeyword, isKeyword, setKeyword) => {
               },
             });
           } catch (error) {
-            alert(error);
-            console.log(error);
+            alert("There has been an error posting your flashcard. Try again.");
           }
           // clear storage
           chrome.storage.sync.clear();

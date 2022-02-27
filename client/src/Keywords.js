@@ -9,8 +9,6 @@ function Keywords() {
   const url =
     "https://us-east1-flashme-27657.cloudfunctions.net/cards/flashcards";
 
-  const removeCard = () => {};
-
   useEffect(async () => {
     setCards([
       {

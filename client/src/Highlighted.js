@@ -7,7 +7,7 @@ function Highlighted() {
   const [isKeyword, setIsKeyword] = useState(true);
   const [keyword, setKeyword] = useState("");
   const toQuizUrl =
-    "https://us-east1-flashme-27657.cloudfunctions.net/cards/toQuizlet";
+    "https://us-east1-flashme-27657.cloudfunctions.net/cards/toDeck";
 
   useEffect(() => {
     /* global chrome */
@@ -34,7 +34,6 @@ function Highlighted() {
         chrome.storage.sync.get("keyword", async (results) => {
           if (!results.keyword && selection != undefined) {
             // add keyword to storage
-            alert(selection);
             chrome.storage.sync.set({ keyword: selection });
             setKeyword(selection);
             setIsKeyword(!isKeyword);
@@ -46,6 +45,8 @@ function Highlighted() {
                 body: JSON.stringify({
                   cardKey: `${results.keyword}`,
                   cardDef: `${selection}`,
+                  deckName: "deckName",
+                  email: "castrojv@bc.edu",
                 }),
                 headers: {
                   "Content-Type": "application/json",
@@ -53,8 +54,9 @@ function Highlighted() {
                 },
               });
             } catch (error) {
-              alert(error);
-              console.log(error);
+              alert(
+                "There has been an error posting your flashcard. Try again."
+              );
             }
             // clear storage
             chrome.storage.sync.clear();
