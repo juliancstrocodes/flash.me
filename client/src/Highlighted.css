@@ -1,6 +1,7 @@
 .highlighted__button {
   position: absolute;
   display: flex;
+  flex-direction: column;
 }
 
 .highlighted__button > button {
@@ -10,6 +11,7 @@
   width: 130px;
   height: 40px;
   top: 150px;
+  margin-bottom: 5px;
 }
 
 .highlighted_word {

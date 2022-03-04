@@ -25,8 +25,8 @@ export const storeWord = (setIsKeyword, isKeyword, setKeyword) => {
               body: JSON.stringify({
                 cardKey: `${results.keyword}`,
                 cardDef: `${selection}`,
-                deckName: "deckName",
-                email: "castrojv@bc.edu",
+                deckName: `deckName`,
+                email: `castrojv@bc.edu`,
               }),
               headers: {
                 "Content-Type": "application/json",

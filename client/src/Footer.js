@@ -24,9 +24,7 @@ function Footer() {
             color: "white",
           }}
         >
-          {location.pathname === "/keywords"
-            ? "upload to quizlet"
-            : "edit or upload"}
+          {location.pathname === "/keywords" ? "upload" : "edit"}
         </Link>
       </code>
     </div>
