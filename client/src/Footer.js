@@ -9,15 +9,9 @@ function Footer() {
 
   return (
     <div className="footer">
-      <code
-        onClick={() => {
-          if (location.pathname === "/keywords") {
-            alert("run scraper");
-          }
-        }}
-      >
+      <code>
         <Link
-          to="/keywords"
+          to={location.pathname === "/keywords" ? "/upload" : "/keywords"}
           style={{
             margin: "1rem",
             textDecoration: "none",

@@ -1,0 +1,86 @@
+.upload {
+  text-align: center;
+  height: 10px;
+  width: 250px;
+  top: 115px;
+  position: absolute;
+}
+
+.upload__quizlet {
+  text-align: center;
+  height: 10px;
+  width: 250px;
+  top: 150px;
+  position: absolute;
+}
+
+.upload__tutorial {
+  text-align: center;
+  height: 10px;
+  width: 250px;
+  top: 65px;
+  position: absolute;
+}
+
+.upload__tutorial > code {
+  color: white;
+}
+
+.upload__tutorial > button {
+  position: absolute;
+  top: 232px;
+  left: 162px;
+  height: 20px;
+  width: 5px;
+  text-transform: inherit !important;
+  background-color: var(--blue);
+  color: white;
+}
+
+.upload > code {
+  color: white;
+  font-size: 12px;
+}
+
+.copy__button {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.copy__button > button {
+  text-transform: inherit !important;
+  background-color: var(--blue);
+  color: white;
+  width: 180px;
+  height: 60px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(4, 57, 107, 0.3);
+  cursor: pointer;
+  position: relative;
+  animation: back 500ms 1;
+}
+
+.image {
+  width: 200px;
+}
+
+.finish__upload {
+  text-align: center;
+  height: 10px;
+  width: 250px;
+  top: 145px;
+  position: absolute;
+}
+
+.finish__upload > code {
+  color: white;
+  font-size: 12px;
+}

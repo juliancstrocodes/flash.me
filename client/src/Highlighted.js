@@ -1,12 +1,26 @@
-import logo from "./logo.svg";
 import "./Highlighted.css";
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 
-function Highlighted() {
+const styles = {
+  root: {
+    background: "pink",
+    borderRadius: 5,
+  },
+  input: {
+    color: "white",
+  },
+};
+
+function Highlighted(props) {
+  const { classes } = props;
   const [isKeyword, setIsKeyword] = useState(true);
   const [keyword, setKeyword] = useState("");
   const [submit, setSubmit] = useState(false);
+  const [input, setInput] = useState(false);
+  const [inputText, setInputText] = useState("");
 
   useEffect(() => {
     /* global chrome */
@@ -25,9 +39,69 @@ function Highlighted() {
       chrome.storage.sync.remove("keyword");
       setKeyword("");
       setIsKeyword(!isKeyword);
-      setSubmit(false);
     }
   }, [submit]);
+
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.key === "Enter" && inputText.length > 0) {
+      if (isKeyword) {
+        // add keyword to storage
+        chrome.storage.sync.set({ keyword: inputText });
+        setKeyword(inputText);
+        setIsKeyword(!isKeyword);
+      } else {
+        /* global storage */
+        chrome.storage.sync.get(["keyword", "deckId"], async (results) => {
+          try {
+            if (results.deckId !== undefined) {
+              await fetch(
+                `https://us-east1-flashme-27657.cloudfunctions.net/cards/toDeck/${results.deckId}`,
+                {
+                  method: "POST",
+                  body: JSON.stringify({
+                    cardKey: `${results.keyword}`,
+                    cardDef: inputText,
+                  }),
+                  headers: {
+                    "Content-Type": "application/json",
+                    charset: "utf-8",
+                  },
+                }
+              );
+            } else {
+              const response = await fetch(
+                `https://us-east1-flashme-27657.cloudfunctions.net/cards/createDeck`,
+                {
+                  method: "POST",
+                  body: JSON.stringify({
+                    cardKey: `${results.keyword}`,
+                    cardDef: inputText,
+                  }),
+                  headers: {
+                    "Content-Type": "application/json",
+                    charset: "utf-8",
+                  },
+                }
+              );
+              const deckId = await response.text();
+              chrome.storage.sync.set({ deckId: deckId });
+            }
+            setSubmit(true);
+          } catch {
+            alert(
+              "There has been an error processing your request. Please try again."
+            );
+          }
+        });
+      }
+      setInput(false);
+      setInputText("");
+    } else if (e.key === "Enter" && inputText.length == 0) {
+      setInput(false);
+      setInputText("");
+    }
+  };
 
   // 1. if nothing is stored, add to keyword.
   // 2. if keyword is stored but no def, add to definition.
@@ -42,11 +116,10 @@ function Highlighted() {
         function (selection) {
           /* global chrome */
           chrome.storage.sync.get(["keyword", "deckId"], async (results) => {
-            alert(results.deckId);
             if (!results.keyword && selection !== undefined) {
               // add keyword to storage
-              chrome.storage.sync.set({ keyword: selection });
-              setKeyword(selection);
+              chrome.storage.sync.set({ keyword: inputText });
+              setKeyword(inputText);
               setIsKeyword(!isKeyword);
             } else if (results.keyword && selection !== undefined) {
               // upload to firebase
@@ -85,23 +158,28 @@ function Highlighted() {
                   chrome.storage.sync.set({ deckId: deckId });
                 }
                 setSubmit(true);
+                setInputText("");
               } catch (error) {
-                alert(error);
+                alert(
+                  "There has been an error processing your request. Please try again."
+                );
               }
-            } else if (selection == undefined) {
+            } else {
               alert(
-                "Please highlight the term/definition before adding it to your set."
+                "Please highlight the term/definition before adding it to your set. In case the website you're on does not have propery copy-paste properties, input the text manually."
               );
             }
           });
         }
       );
+    } else {
+      setSubmit(false);
     }
   };
 
-  return (
+  return !input ? (
     <React.Fragment>
-      <div className="highlighted_word">
+      <div className="highlighted__word">
         {/** appears to be an issue with the following condition */}
         {keyword === "" && isKeyword ? (
           <code></code>
@@ -125,8 +203,44 @@ function Highlighted() {
           )}
         </Button>
       </div>
+      <div className="input__option">
+        {!submit ? (
+          <Button onClick={() => setInput(true)}>
+            <code>type instead</code>
+          </Button>
+        ) : (
+          <></>
+        )}
+      </div>
+    </React.Fragment>
+  ) : (
+    <React.Fragment>
+      <div className="input__box">
+        <TextField
+          id="standard-multiline-static"
+          label={isKeyword ? "Keyword" : "Definition"}
+          multiline
+          rows={6}
+          color="white"
+          variant="outlined"
+          className={classes.root}
+          InputProps={{
+            className: classes.input,
+          }}
+          value={inputText}
+          onInput={(inp) => setInputText(inp.target.value)}
+          onKeyPress={handleKeypress}
+        />
+        <code style={{ color: "white", textAlign: "center", marginTop: 5 }}>
+          hit enter to submit
+        </code>
+      </div>
     </React.Fragment>
   );
 }
 
-export default Highlighted;
+Highlighted.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Highlighted);

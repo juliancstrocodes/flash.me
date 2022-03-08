@@ -66,6 +66,7 @@ function Keywords() {
             definition={card.cardDef}
             index={index}
             setRemoved={setRemoved}
+            deckId={deckId}
           />
         </div>
       ))}

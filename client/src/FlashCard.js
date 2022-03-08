@@ -1,15 +1,11 @@
 import { Box, Card, CardContent, Typography, Button } from "@material-ui/core";
 
-const removeCard = async (index, setRemoved) => {
+const removeCard = async (index, setRemoved, deckId) => {
   try {
     await fetch(
-      `https://us-east1-flashme-27657.cloudfunctions.net/cards/removeCard/${index}`,
+      `https://us-east1-flashme-27657.cloudfunctions.net/cards/removeCard/${deckId}/${index}`,
       {
         method: "DELETE",
-        body: JSON.stringify({
-          deckName: "deckName",
-          email: "castrojv@bc.edu",
-        }),
         headers: { "Content-Type": "application/json" },
       }
     );
@@ -21,7 +17,7 @@ const removeCard = async (index, setRemoved) => {
 };
 
 // add properties
-function FlashCard({ term, definition, index, setRemoved }) {
+function FlashCard({ term, definition, index, setRemoved, deckId }) {
   return (
     <Box className="cards__box" sx={{ width: 300, height: "100%" }}>
       <Card style={{ backgroundColor: "#61dbfb", height: "50%" }}>
@@ -46,7 +42,7 @@ function FlashCard({ term, definition, index, setRemoved }) {
       </Card>
       <Button
         className="card__remove"
-        onClick={() => removeCard(index, setRemoved)}
+        onClick={() => removeCard(index, setRemoved, deckId)}
       >
         <code style={{ color: "white" }}>Remove</code>
       </Button>

@@ -3,12 +3,12 @@ const admin = require("firebase-admin");
 /* eslint-disable no-template-curly-in-string */
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: "flashme-27657.firebaseapp.com",
-  projectId: "flashme-27657",
-  storageBucket: "flashme-27657.appspot.com",
-  messagingSenderId: "983038615558",
-  appId: "1:983038615558:web:12a882e458a9dee174e387",
-  measurementId: "G-W93D8SMGTM",
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGE_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
 };
 /* eslint-disable no-template-curly-in-string */
 

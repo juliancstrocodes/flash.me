@@ -68,16 +68,29 @@ cardsApp.delete("/deleteDeck/:id", async (req, res) => {
   res.status(200).send();
 });
 
-/**
- * work flow of scrapper
- *
- * 1. show log in to quizlet, have the user log in.
- * 2. wait for user input; exit any banner ad,...
- * 3. click "import from..."
- * 4. link term-definition with >>>><<<<
- * 5. link cards with <<<<>>>>
- * 6. copy text
- * 7. click submit
- */
+cardsApp.post("/toQuizlet/:id", async (req, res) => {
+  let quizletString = "";
+  const deckId = req.params.id;
+
+  const flashcards = await db.collection("decks").doc(deckId).get();
+
+  const flashcardData = flashcards.data().cards;
+
+  flashcardData.forEach((card, i) => {
+    if (i != 0 || i != flashcardData.length - 1) {
+      quizletString += ">>>";
+      quizletString += card.cardKey;
+      quizletString += ">>><<<";
+      quizletString += card.cardDef;
+      quizletString += "<<<";
+    } else {
+      quizletString += card.cardKey;
+      quizletString += ">>><<<";
+      quizletString += card.cardDef;
+    }
+  });
+
+  res.status(200).send(quizletString);
+});
 
 module.exports = cardsApp;
